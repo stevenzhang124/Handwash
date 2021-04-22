@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Show Student Information</title>
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+   <body>
+
+      <h2>Hand Wash Information</h2>
+      <ul>
+       <li><b>Case 0</b>: Enter room, wash hands, touch patient, wash hands, leave room<b>(Follow the rules)</b></li>
+       <li><b>Case 1</b>: Enter room, wash hands, touch patient, not wash hands, leave room<b>(Break the rules)</b></li>
+       <li><b>Case 2</b>: Enter room, not wash hands, touch patient, wash hands, leave room<b>(Break the rules)</b></li>
+       <li><b>Case 3</b>: Enter room, not wash hands, touch patient, not wash hands, leave room<b>(Break the rules)</b></li>
+      </ul>
+
+      <table border=1 >
+         <thead>
+            <tr>
+               <th>Person</th>
+               <th>Case 0</th>
+               <th>Case 1</th>
+               <th>Case 2</th>
+               <th>Case 3</th>
+               <th>Count for breaking rule</th>
+            </tr>            
+         </thead>
+         <tbody>
+            <tr>
+               <td>Doctor</td>
+               <td>{{results[0][0]}}</td>
+               <td>{{results[0][1]}}</td>
+               <td>{{results[0][2]}}</td>
+               <td>{{results[0][3]}}</td>
+               <td>{{results[0][4]}}</td>   
+            </tr>
+            <tr>
+               <td>Nurse</td>
+               <td>{{results[1][0]}}</td>
+               <td>{{results[1][1]}}</td>
+               <td>{{results[1][2]}}</td>
+               <td>{{results[1][3]}}</td>
+               <td>{{results[1][4]}}</td>   
+            </tr>
+         </tbody>
+         
+      </table>
+
+      <h2><a href = "/">Back Home</a></h2>
+
+
+   </body>
+</html>

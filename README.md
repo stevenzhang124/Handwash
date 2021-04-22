@@ -1,0 +1,2 @@
+# EdgeAI
+Hand wash detection.
