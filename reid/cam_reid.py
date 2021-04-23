@@ -13,7 +13,7 @@ import numpy as np
 
 def reid_model():
 	model = torchreid.models.build_model(
-		name="osnet_ain_x1_0",
+		name="osnet_ibn_x1_0",
 		num_classes=100,
 		loss="softmax",
 		pretrained=True
@@ -102,33 +102,35 @@ class Compare(object):
 		
 		#print("dist list:", dist_list, origin_name)
 		
-		#reid person
-		sim_for_doctor = []
-		sim_for_nurse = []
-		mean_dis = 0
-		for num, dis in enumerate(dist_list):
-			if dis < 0.35:
-				if 'QY' in origin_name[num]:
-					sim_for_doctor.append(dis)
-				elif "YN" in origin_name[num]:
-					sim_for_nurse.append(dis)
-		doctor_ave = np.mean(sim_for_doctor)
-		nurse_ave = np.mean(sim_for_nurse)
-		if len(sim_for_doctor) > len(sim_for_nurse):
-			identify_name = "QY1"
-			mean_dis = doctor_ave
-		elif len(sim_for_doctor) < len(sim_for_nurse):
-			identify_name = "YN1"
-			mean_dis = nurse_ave
-		elif len(sim_for_doctor) == 0:
-			identify_name = "Unknown"
-		elif doctor_ave < nurse_ave:
-			identify_name = "QY1"
-			mean_dis = doctor_ave
-		else:
-			identify_name = "YN1"
-			mean_dis = nurse_ave
-		return identify_name, mean_dis
+		# #reid person
+		# sim_for_doctor = []
+		# sim_for_nurse = []
+		# mean_dis = 0
+		# for num, dis in enumerate(dist_list):
+		# 	if dis < 0.34:
+		# 		if 'QY' in origin_name[num]:
+		# 			sim_for_doctor.append(dis)
+		# 		elif "YN" in origin_name[num]:
+		# 			sim_for_nurse.append(dis)
+		# doctor_ave = np.mean(sim_for_doctor)
+		# nurse_ave = np.mean(sim_for_nurse)
+		# if len(sim_for_doctor) > len(sim_for_nurse):
+		# 	identify_name = "QY1"
+		# 	mean_dis = doctor_ave
+		# elif len(sim_for_doctor) < len(sim_for_nurse):
+		# 	identify_name = "YN1"
+		# 	mean_dis = nurse_ave
+		# elif len(sim_for_doctor) == 0:
+		# 	identify_name = "Unknown"
+		# 	mean_dis = doctor_ave
+		# elif doctor_ave < nurse_ave:
+		# 	identify_name = "QY1"
+		# 	mean_dis = doctor_ave
+		# else:
+		# 	identify_name = "YN1"
+		# 	mean_dis = nurse_ave
+		# return identify_name, mean_dis
+
 		# if len(sim_for_doctor) == len(sim_for_nurse):
 		# 	if len(sim_for_doctor) == 0:
 		# 		identify_name = "Unknown"
@@ -146,13 +148,13 @@ class Compare(object):
 		# 	mean_dis = nurse_ave
 		# return identify_name, mean_dis
 		
-		# top_id = dist_list.index(min(dist_list))
-		# if(min(dist_list) < 0.30):
-		# 	identify_name = origin_name[top_id]
-		# else:
-		# 	identify_name = "Unknown"
+		top_id = dist_list.index(min(dist_list))
+		if(min(dist_list) < 0.3):
+			identify_name = origin_name[top_id]
+		else:
+			identify_name = "Unknown"
 		
-		# return identify_name, min(dist_list)
+		return identify_name, min(dist_list)
 
 		
 def test():

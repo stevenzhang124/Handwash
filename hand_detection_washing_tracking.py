@@ -278,7 +278,7 @@ def handle_frames(frame):
 
 
 	#detect person
-	detection_results = api.get_person_bbox(frame, thr=0.5)
+	detection_results = api.get_person_bbox(frame, thr=0.50)
 	x_box =[]
 	if len(tracker_list) > 0:
 		for trk in tracker_list:
@@ -370,8 +370,8 @@ def handle_frames(frame):
 
 	#judge whether the person has washed hand before leaving and add the deleted tracker into the tracke_id_list
 	for trk in deleted_tracks:
-		print(trk.box)
-		if trk.box[2] > 640 or trk.box[1]<0:
+		print(trk.box, trk.hits)
+		if (trk.box[2] >= 640 or trk.box[1]<0) and (trk.hits >= 10):
 			if trk.have_touched_pat and (not trk.hand_clean):
 				if trk.violate_rule == 2:
 					trk.violate_rule = 3
