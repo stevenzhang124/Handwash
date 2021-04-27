@@ -222,7 +222,7 @@ def draw_box_label(img, bbox_cv2, box_color=(0, 0, 255), personReID_info={'perso
     '''
     #box_color= (0, 255, 255)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_size = 0.4
+    font_size = 0.6
     font_color = (0, 0, 0)
     left, top, right, bottom = bbox_cv2[0], bbox_cv2[1], bbox_cv2[2], bbox_cv2[3]
     
@@ -234,11 +234,13 @@ def draw_box_label(img, bbox_cv2, box_color=(0, 0, 255), personReID_info={'perso
         cv2.rectangle(img, (left-2, top-30), (right+2, top), box_color, -1, 1)
         
         # Output the labels that show the x and y coordinates of the bounding box center.
-        text_ID = 'personID:' + personReID_info['personID']
-        cv2.putText(img,text_ID,(left,top-20), font, font_size, font_color, 1, cv2.LINE_AA)
-        text_x= 'x='+str((left+right)/2)
-        cv2.putText(img,text_x,(left,top-10), font, font_size, font_color, 1, cv2.LINE_AA)
-        text_y= 'y='+str((top+bottom)/2)
+        #text_x= 'x='+str((left+right)/2)
+        text_x= ''
+        cv2.putText(img,text_x,(left,top-20), font, font_size, font_color, 1, cv2.LINE_AA)  
+        text_ID = personReID_info['personID']
+        cv2.putText(img,text_ID,(left,top-10), font, font_size, font_color, 1, cv2.LINE_AA)            
+        #text_y= 'y='+str((top+bottom)/2)
+        text_y = ''
         cv2.putText(img,text_y,(left,top), font, font_size, font_color, 1, cv2.LINE_AA)
             
     return img    
@@ -385,6 +387,15 @@ def handle_frames(frame):
 			          values ('{}', {}, '{}', '{}', {}, {}, {})".format(trk.personReID_info['personID'], int(time.time()), '', '', \
 			          	int(trk.have_washed_hand), int(trk.have_touched_pat), int(trk.violate_rule))
 			cur.execute(info)
+			if trk.violate_rule == 1 or trk.violate_rule == 3:
+				cmd = "play After.wav"
+				subprocess.Popen(cmd, shell=True)
+			if trk.violate_rule == 2:
+				cmd = "play Before.wav"
+				subprocess.Popen(cmd, shell=True)
+			#if trk.violate_rule != 0:
+			#	cmd1 = "play Beep.wav"
+			#	subprocess.Popen(cmd1, shell=True)
 
 
 		track_id_list.append(trk.id)
@@ -406,7 +417,16 @@ def handle_frames(frame):
 					info = "insert into HANDEMO (PERSON, CTIME, HLOC, PLOC, HAND, PATIENT, JUDGE) \
 			          values ('{}', {}, '{}', '{}', {}, {}, {})".format(trk.personReID_info['personID'], int(time.time()), str(w_h_box), str(trk.box), \
 			          	int(trk.have_washed_hand), int(trk.have_touched_pat), int(trk.violate_rule))
-					cur.execute(info) 
+					cur.execute(info)
+					if trk.violate_rule == 1 or trk.violate_rule == 3:
+						cmd = "play After.wav"
+						subprocess.Popen(cmd, shell=True)
+					if trk.violate_rule == 2:
+						cmd = "play Before.wav"
+						subprocess.Popen(cmd, shell=True)
+					#if trk.violate_rule != 0:
+					#	cmd1 = "play Beep.wav"
+					#	subprocess.Popen(cmd1, shell=True) 
 
 	#for all detected hand in patient
 	if len(hand_in_patient):
@@ -422,7 +442,16 @@ def handle_frames(frame):
 					info = "insert into HANDEMO (PERSON, CTIME, HLOC, PLOC, HAND, PATIENT, JUDGE) \
 			          values ('{}', {}, '{}', '{}', {}, {}, {})".format(trk.personReID_info['personID'], int(time.time()), str(t_p_box), str(trk.box), \
 			          	int(trk.have_washed_hand), int(trk.have_touched_pat), int(trk.violate_rule))
-					cur.execute(info) 
+					cur.execute(info)
+					if trk.violate_rule == 1 or trk.violate_rule == 3:
+						cmd = "play After.wav"
+						subprocess.Popen(cmd, shell=True)
+					if trk.violate_rule == 2:
+						cmd = "play Before.wav"
+						subprocess.Popen(cmd, shell=True) 
+					#if trk.violate_rule != 0:
+					#	cmd1 = "play Beep.wav"
+					#	subprocess.Popen(cmd1, shell=True)
 	return frame
 
 
